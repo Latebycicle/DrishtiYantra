@@ -77,7 +77,7 @@ def get_color_name(hue):
 def main():
     # Path to the Kannada text image
     image_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                            "public", "KannadaText.png")
+                            "public", "colortest.jpeg")
     
     print(f"Analyzing image: {image_path}")
     print(f"Image exists: {os.path.exists(image_path)}")
