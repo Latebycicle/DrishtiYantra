@@ -1,0 +1,14 @@
+fastapi>=0.95.0
+uvicorn>=0.22.0
+python-multipart>=0.0.6
+pillow>=9.5.0
+numpy>=1.24.3
+AksharaJaana>=0.0.1
+transformers>=4.30.0
+sentencepiece>=0.1.99
+soundfile>=0.12.1
+# Platform specific packages - will need to be installed separately
+# torch>=2.0.0
+# torchaudio>=2.0.0
+# parler-tts @ git+https://github.com/huggingface/parler-tts.git
+colorsys>=1.0.0
