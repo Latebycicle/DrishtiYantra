@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Drishti Yantra",
+    "plugins": [
+      "expo-camera",
+      "expo-image-picker"
+    ],
+    "ios": {
+      "usesIcloudStorage": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to detect colors"
+      }
+    },
+    "android": {
+      "permissions": ["CAMERA"]
+    }
+  }
+}
+
