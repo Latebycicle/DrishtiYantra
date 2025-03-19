@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Text, Button, Alert } from 'react-native';
-import { CameraView, Camera } from 'expo-camera';
+import { Camera, CameraView } from 'expo-camera';  // Use CameraView here
 import * as Speech from 'expo-speech';
 import { RootStackParamList } from '../navigation/types';
 import { StackScreenProps } from '@react-navigation/stack';
+import { recognizeText } from '../apiService'; // Ensure you have this API service file
 
 type Props = StackScreenProps<RootStackParamList, 'TextToSpeech'>;
 
@@ -11,7 +12,7 @@ const TextToSpeechScreen = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [cameraReady, setCameraReady] = useState(false);
   const [recognizedText, setRecognizedText] = useState('');
-  const cameraRef = useRef<CameraView>(null);
+  const cameraRef = useRef<CameraView>(null);  // Using CameraView ref
 
   useEffect(() => {
     (async () => {
@@ -24,15 +25,34 @@ const TextToSpeechScreen = () => {
     setCameraReady(true);
   };
 
-  const recognizeText = async () => {
-    if (!cameraReady) {
+  const capturePhoto = async () => {
+    if (!cameraReady || !cameraRef.current) {
       Alert.alert('Camera not ready');
       return;
     }
+  
+    try {
+      const photo = await cameraRef.current.takePictureAsync();
+  
+      // Check if photo is defined before proceeding
+      if (photo && photo.uri) {
+        await recognizeTextFromImage(photo.uri); // Call function to recognize text from image
+      } else {
+        Alert.alert('Failed to capture photo');
+      }
+    } catch (error) {
+      Alert.alert('Error capturing photo');
+    }
+  };
 
-    const simulatedText = 'This is a sample recognized text.';
-    setRecognizedText(simulatedText);
-    speakText(simulatedText);
+  const recognizeTextFromImage = async (imageUri: string) => {
+    try {
+      const result = await recognizeText(imageUri); // Send image URI to the backend
+      setRecognizedText(result.text); // Assuming 'text' is returned by the backend
+      speakText(result.text);
+    } catch (error) {
+      Alert.alert('Error recognizing text.');
+    }
   };
 
   const speakText = (text: string) => {
@@ -55,9 +75,9 @@ const TextToSpeechScreen = () => {
     <View style={styles.container}>
       <CameraView
         style={styles.camera}
-        facing="back"
+        facing="back"  // Same as in Color Detection, ensuring camera is set up properly
         onCameraReady={handleCameraReady}
-        ref={cameraRef}
+        ref={cameraRef}  // Properly using ref here
       >
         <View style={styles.overlay}>
           <Text style={styles.overlayText}>Point the camera at text</Text>
@@ -71,7 +91,7 @@ const TextToSpeechScreen = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button title="Recognize Text" onPress={recognizeText} />
+        <Button title="Capture & Recognize Text" onPress={capturePhoto} />
         <Button
           title="Speak Text"
           onPress={() => speakText(recognizedText)}
