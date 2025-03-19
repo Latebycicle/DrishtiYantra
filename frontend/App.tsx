@@ -5,6 +5,8 @@ import ColorDetectionScreen from './screens/ColorDetectionScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import TextToSpeechScreen from './screens/TextToSpeechScreen';
 import { RootStackParamList } from './navigation/types';
+import TextRecognitionScreen from './screens/TextRecognitionScreen'; // Import your screen
+
 
 const Stack = createStackNavigator<RootStackParamList>();
 
