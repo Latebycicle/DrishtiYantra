@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 import io
 
+print("Imported successfully")
 # Disable SSL certificate verification for downloading models
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -38,7 +39,6 @@ async def perform_ocr(image_data: bytes):
         
         # Perform OCR
         results = reader.readtext(image)
-        
         # Extract text
         text = ' '.join([result[1] for result in results])
         
@@ -75,4 +75,4 @@ async def read_root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    uvicorn.run(app, host="0.0.0.0", port=8003)
